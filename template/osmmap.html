@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <title>Optimized Map</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyByqKvIWRQMT914fzUarVVTJjrHMusYzLU&callback=initMap"
+    type="text/javascript"></script>
+  </head>
+  {% block javascript %}
+    <script type="text/javascript">
+		
+		
+	  labels = JSON.parse({{ labels | tojson }});
+	 
+	  
+      function initMap() {
+		var bounds = new google.maps.LatLngBounds();
+		var myCenter,marker;
+		bounds.extend(new google.maps.LatLng(40.4921, -74.5015));
+		bounds.extend(new google.maps.LatLng(40.5333, -74.4143));
+		
+		map = new google.maps.Map(document.getElementById('map'), {
+		  center: {lat: 40.493795, lng: -74.4544399}, 
+          zoom: 16
+        });
+		var marker, i;
+		//locations[i][1], locations[i][2]
+		for (i =0 ; i<labels.length;i++){
+			
+			marker = new google.maps.Marker({
+				position: new google.maps.LatLng(labels[i].lat, labels[i].lng),
+				icon: {
+					path: google.maps.SymbolPath.CIRCLE,
+					scale: 5,
+				  },
+				draggable: true,
+				animation: google.maps.Animation.Drop,
+				map: map
+			  });
+			
+		}
+		marker.setMap(map);
+		
+	}
+    </script>
+	{% endblock %}
+	<body>
+		<h1>Optimized Path </h1>
+	<div id="map"style="width:100%; height:500px;"></div>
+	<div><p style="font-size: 24px;">
+		Black dots determined by A* algorithm.
+	</p></div>
+  </body>
+</html>
