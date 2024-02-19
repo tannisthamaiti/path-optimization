@@ -16,7 +16,7 @@ class Path:
 
 @app.route('/')
 def hello_world():
-    return "<p>Hello, World!</p>"
+    return "<h2>Welcome to route optimization app!</h2>"
 
 @app.route('/location_details', methods=['GET', 'POST'])
 def home():
